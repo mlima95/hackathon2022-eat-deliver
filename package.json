@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/mlima95/hackathon2022-eat-deliver#readme",
   "dependencies": {
-    "puppeteer": "^14.3.0"
+    "node-fetch": "^2.6.7"
   }
 }

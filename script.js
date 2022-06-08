@@ -1,15 +1,18 @@
-const puppeteer = require("puppeteer");
+const fetch = require('node-fetch');
 
-(async () => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto('https://deliveroo.fr/');
-    // const text = await page.$('#location-search');
-    await page.type('#location-search','274 Rue de Vaugirard, 75015 Paris, France', {delay: 100});
-    const [response] = await Promise.all([
-        page.waitForNavigation(),
-        page.click('.ccl-d0484b0360a2b432.ccl-233931c277401e86.ccl-ed9aadeaa18a9f19.ccl-a97a150ddadaa172'),
-    ]);
-    console.log(response);
-    await browser.close();
-})();
+async function ApiEatDeliver(){
+    const response = await fetch("https://cw-api.takeaway.com/api/v29/restaurants?deliveryAreaId=20756953&postalCode=75015&lat=48.8393843&lng=2.3023659&limit=5&isAccurate=true", {
+        "headers": {
+            "accept": "application/json, text/plain, */*",
+            "x-country-code": "fr",
+            "x-language-code": "fr",
+        },
+        "body": null,
+        "method": "GET"
+    });
+    const json = await response.json();
+    console.log(json);
+}
+
+test();
+
