@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  scrapper-eat-deliver:
+    image: node:alpine3.10
+    container_name: scrapper-eat-deliver
+    ports:
+      - "3000:3000"
+    working_dir: /opt/app
+    command: sh -c "npm install --no-update-notifier; npm start --no-update-notifier"
+    volumes:
+      - ./scrapper-eat-deliver:/opt/app
+      - /opt/project/node_modules/
