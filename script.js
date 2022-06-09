@@ -31,8 +31,52 @@ exports.apiEatDeliver = async () => {
         "method": "GET"
     });
     const json = await responseEatDeliver.json();
-    return json.aggregates.cuisines
+    // console.log(json);
+    regex = /[a-zA-Z.]+/g;
+    formatted_cuisine_types = []
+    cuisine_types = Object.keys(json.aggregates.cuisines);
+    cuisine_types.map(cuisine => {
+        cuisine = regex.exec(cuisine)
+        if (cuisine != null) {
+            formatted_cuisine_types.push(cuisine[0])
+        } else {
+            cuisine = "repas"
+            formatted_cuisine_types.push(cuisine)
+        }
+    })
+    let restoIds = [];
+    for (let value in json.aggregates.cuisines) {
+        if (value.includes("japanese")) {
+            restoIds = json.aggregates.cuisines[value];
+        }
+    }
+    let restosList = [];
+    for (let i = 0; i <= 10; i++) {
+        // console.log(json.restaurants[resto].primarySlug);
+        restosList.push(json.restaurants[restoIds[i]].primarySlug);
+    }
+
+    let restoObjectList = [];
+    let arrayTest = [];
+    for (let restoSlug of restosList) {
+        let restoObject = {};
+        const responseRestos = await fetch(`https://cw-api.takeaway.com/api/v29/restaurant?slug=${restoSlug}`, {
+            "headers": {
+                "accept": "application/json, text/plain, */*",
+                "x-country-code": "fr",
+                "x-language-code": "fr",
+            },
+            "body": null,
+            "method": "GET"
+        });
+        const jsonRestos = await responseRestos.json();
+        restoObject.brandImg = jsonRestos.brand.logoUrl;
+        restoObject.restoName = restoSlug;
+        restoObject.products = jsonRestos.menu.products;
+        restoObjectList.push(restoObject);
+    }
+
+
+    return restoObjectList;
 }
-
-
 
