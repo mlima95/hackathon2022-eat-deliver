@@ -31,8 +31,26 @@ exports.apiEatDeliver = async () => {
         "method": "GET"
     });
     const json = await responseEatDeliver.json();
-    return json.aggregates.cuisines
+    regex = /[a-zA-Z.]+/g;
+    formatted_cuisine_types = []
+    cuisine_types = Object.keys(json.aggregates.cuisines);
+    cuisine_types.map(cuisine=>{
+       cuisine = regex.exec(cuisine)
+       if (cuisine != null)
+       {formatted_cuisine_types.push(cuisine[0])}
+       else{
+           cuisine = "repas"
+           formatted_cuisine_types.push(cuisine)
+       }
+    })
+    console.log(formatted_cuisine_types)
+    addresses=[]
+    i = 0
+    while(i<formatted_cuisine_types.length){
+        addresses.push(`https://www.just-eat.fr/livraison-${formatted_cuisine_types[i]}`)
+        i++
+    }
+
+    return addresses
 }
-
-
 
