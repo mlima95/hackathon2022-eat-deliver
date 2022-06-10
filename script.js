@@ -72,11 +72,12 @@ exports.apiEatDeliver = async () => {
         const jsonRestos = await responseRestos.json();
         restoObject.brandImg = jsonRestos.brand.logoUrl;
         restoObject.restoName = restoSlug;
-        restoObject.products = jsonRestos.menu.products;
+        restoObject.products = Object.entries(jsonRestos.menu.products).slice(0,3)
         restoObjectList.push(restoObject);
     }
 
 
     return restoObjectList;
+
 }
 
