@@ -16,7 +16,6 @@
     <title>Adresse</title>
   </head>
   <body>
-
     <div class="d-flex flex-column">
       <div class="p-2">
         <textarea
@@ -35,6 +34,8 @@
         </button>
       </div>
     </div>
+
+    <div class="valuesApiDeliver"></div>
   </body>
 
   <script>
@@ -70,12 +71,13 @@
 
     async function testResto(lon, lat, postcode) {
       const responseGeocoding = await fetch(
-        `http://localhost:8080/eatDeliver?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(
-          lon
-        )}&postCode=${postcode}`,
+        `http://localhost:8080/eatDeliver?lat=${encodeURIComponent(
+          lat
+        )}&lon=${encodeURIComponent(lon)}&postCode=${postcode}`,
         requestOptions
       );
-      console.log(await responseGeocoding.json());
+      const elment = document.querySelector(".valuesApiDeliver");
+      elment.innerHTML = JSON.stringify(await responseGeocoding.json());
     }
   </script>
 </html>
