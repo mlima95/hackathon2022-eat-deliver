@@ -4,7 +4,7 @@ const router = new Router();
 
 router.get('/', async (req, res) => {
     try {
-        res.send(await apiEatDeliver());
+        res.send(await apiEatDeliver(req.query.lat, req.query.lon, req.query.postCode));
     } catch (err){
         console.log(err);
     }

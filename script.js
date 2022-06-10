@@ -18,10 +18,10 @@ async function getLocationWithAdress() {
     };
 }
 
-exports.apiEatDeliver = async () => {
+exports.apiEatDeliver = async (lat,lon,postCode) => {
 
     const location = await getLocationWithAdress();
-    const responseEatDeliver = await fetch(`https://cw-api.takeaway.com/api/v29/restaurants?postalCode=${location.postCode}&lat=${location.lat}&lng=${location.lon}&limit=1&isAccurate=true`, {
+    const responseEatDeliver = await fetch(`https://cw-api.takeaway.com/api/v29/restaurants?postalCode=${postCode}&lat=${lat}&lng=${lon}&limit=1&isAccurate=true`, {
         "headers": {
             "accept": "application/json, text/plain, */*",
             "x-country-code": "fr",
