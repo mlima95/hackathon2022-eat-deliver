@@ -20,6 +20,7 @@ async function getLocationWithAdress() {
 
 exports.apiEatDeliver = async (lat,lon,postCode) => {
 
+    console.log(lat, lon)
     const location = await getLocationWithAdress();
     const responseEatDeliver = await fetch(`https://cw-api.takeaway.com/api/v29/restaurants?postalCode=${postCode}&lat=${lat}&lng=${lon}&limit=1&isAccurate=true`, {
         "headers": {
@@ -31,7 +32,7 @@ exports.apiEatDeliver = async (lat,lon,postCode) => {
         "method": "GET"
     });
     const json = await responseEatDeliver.json();
-    // console.log(json);
+    console.log(json);
     let regex = /[a-zA-Z.]+/g;
     let formatted_cuisine_types = [];
     let cuisine_types = Object.keys(json.aggregates.cuisines);

@@ -14,87 +14,18 @@
   <body>
 
     <div class="w3-container">
-        <textarea class="w3-input w3-border" type="text" placeholder="Tapez votre adresse ici..."></textarea>
-        <button class="w3-btn w3-hover-black w3-khaki" onclick="getLocationWithAddress()">
+        <textarea id="address" class="w3-input w3-border" type="text" placeholder="Tapez votre adresse ici..."></textarea>
+        <button class="w3-btn w3-hover-black w3-green" onclick="getLocationWithAddress()">
           Localisez-moi avec mon adresse
         </button>
-      
+
         <button class="w3-btn w3-hover-black w3-blue" onclick="getLocation()">
          Magic <i class="fa fa-magic"></i>
         </button>
     </div>
 
     <div class="valuesApiDeliver"></div>
+    <script src="/front-script.js"></script>
+
   </body>
-
-  <script>
-    const apiKey = "dff8fa5b77e742859065b71e0d6ddc49";
-    const requestOptions = {
-      method: "GET",
-    };
-    async function getLocation() {
-      navigator.geolocation.getCurrentPosition(async (pos) => {
-        const reverseGeocodingUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&apiKey=${apiKey}`;
-        const responseGeocoding = await fetch(
-          reverseGeocodingUrl,
-          requestOptions
-        );
-        const jsonGeocoding = await responseGeocoding.json();
-        const { postcode } = jsonGeocoding.features[0].properties;
-        testResto(pos.coords.longitude, pos.coords.latitude, postcode);
-      });
-    }
-
-    async function getLocationWithAddress() {
-      console.log("hello");
-      const address = encodeURIComponent(
-        document.querySelector("#address").value
-      );
-      const responseGeocoding = await fetch(
-        `https://api.geoapify.com/v1/geocode/search?apiKey=${apiKey}&text=${address}`,
-        requestOptions
-      );
-      const jsonGeocoding = await responseGeocoding.json();
-      const { lon, lat, postcode } = jsonGeocoding.features[0].properties;
-    }
-
-    async function testResto(lon, lat, postcode) {
-      const responseGeocoding = await fetch(
-        `${window.location}/eatDeliver?lat=${encodeURIComponent(
-          lat
-        )}&lon=${encodeURIComponent(lon)}&postCode=${postcode}`,
-        requestOptions
-      );
-      const elment = document.querySelector(".valuesApiDeliver");
-      elment.innerHTML = getCards(await responseGeocoding.json());
-    }
-
-    function getCards(data) {
-      let cards = "";
-      data.forEach((resto) => {
-        cards += `<div class="w3-card-4 w3-third w3-margin w3-white">
-        <img src="${resto.brandImg}" alt="img" style="width:25%">
-        <div class="w3-container">
-          <h3>${formatText(resto.restoName)}</h3>
-          <a target="_blank" href="https://www.just-eat.fr/menu/${resto.restoName}">
-        <button class="w3-btn w3-red">
-          Commander
-        </button>        
-      </a>
-        </div>
-      </div>`;
-      });
-      return cards;
-    }
-
-    // function that replace hyphens with a space and capitalize the output
-    function formatText(str) {
-      return capitalizeFirstLetter(str.replace(/-/g, " "));
-    }
-    function capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-
-  </script>
 </html>
