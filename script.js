@@ -1,27 +1,15 @@
 const fetch = require('node-fetch');
 
 
-async function getLocationWithAdress() {
-    const requestOptions = {
-        method: 'GET',
-    };
-
-    const responseGeocoding = await fetch("https://api.geoapify.com/v1/geocode/search?text=173%20Rue%20de%20Vaugirard%2C%2075015%20Paris%2C%20France&apiKey=dff8fa5b77e742859065b71e0d6ddc49", requestOptions);
-    const jsonGeocoding = await responseGeocoding.json();
-    const postCode = jsonGeocoding.query.parsed.postcode
-    const lon = jsonGeocoding.features[0].properties.lon;
-    const lat = jsonGeocoding.features[0].properties.lat;
-    return {
-        postCode,
-        lon,
-        lat,
-    };
-}
-
-exports.apiEatDeliver = async (lat,lon,postCode) => {
-
-    console.log(lat, lon)
-    const location = await getLocationWithAdress();
+/**
+ * With location, return a formatted list of restaurants
+ * @param lat
+ * @param lon
+ * @param postCode
+ * @returns {Promise<void>}
+ */
+exports.apiEatDeliver = async (lat, lon, postCode) => {
+    // Get the json data from the Just eat
     const responseEatDeliver = await fetch(`https://cw-api.takeaway.com/api/v29/restaurants?postalCode=${postCode}&lat=${lat}&lng=${lon}&limit=1&isAccurate=true`, {
         "headers": {
             "accept": "application/json, text/plain, */*",
@@ -32,52 +20,57 @@ exports.apiEatDeliver = async (lat,lon,postCode) => {
         "method": "GET"
     });
     const json = await responseEatDeliver.json();
-    console.log(json);
-    let regex = /[a-zA-Z.]+/g;
-    let formatted_cuisine_types = [];
-    let cuisine_types = Object.keys(json.aggregates.cuisines);
-    cuisine_types.map(cuisine => {
-        cuisine = regex.exec(cuisine)
-        if (cuisine != null) {
-            formatted_cuisine_types.push(cuisine[0])
-        } else {
-            cuisine = "repas"
-            formatted_cuisine_types.push(cuisine)
-        }
-    })
+
+    // format the json to return to the front with the data
+    return formatJustEatResponse(json);
+};
+
+
+/**
+ * Format the json to return to the front with the data
+ * @param json
+ * @returns {Promise<*[]>}
+ */
+async function formatJustEatResponse(json) {
+
+    // Get all restaurant
     let restoIds = [];
-    for (let value in json.aggregates.cuisines) {
-        if (value.includes("japanese")) {
-            restoIds = json.aggregates.cuisines[value];
-        }
+    for (const value in json.aggregates.cuisines) {
+        restoIds = [...restoIds, ...json.aggregates.cuisines[value]];
     }
     let restosList = [];
     for (let i = 0; i <= 10; i++) {
-        // console.log(json.restaurants[resto].primarySlug);
-        restosList.push(json.restaurants[restoIds[i]].primarySlug);
+        const resto =json.restaurants[restoIds[i]];
+        if(resto){
+            restosList.push(resto.primarySlug);
+        }
     }
-
+    // Getting the restaurant data from just eat api
     let restoObjectList = [];
-    let arrayTest = [];
     for (let restoSlug of restosList) {
-        let restoObject = {};
-        const responseRestos = await fetch(`https://cw-api.takeaway.com/api/v29/restaurant?slug=${restoSlug}`, {
-            "headers": {
-                "accept": "application/json, text/plain, */*",
-                "x-country-code": "fr",
-                "x-language-code": "fr",
-            },
-            "body": null,
-            "method": "GET"
-        });
-        const jsonRestos = await responseRestos.json();
-        restoObject.brandImg = jsonRestos.brand.logoUrl;
-        restoObject.restoName = restoSlug;
-        restoObject.products = Object.entries(jsonRestos.menu.products).slice(0,3)
-        restoObjectList.push(restoObject);
+        restoObjectList.push(await getRestaurantData(restoSlug));
     }
-
-
     return restoObjectList;
+}
 
+/**
+ * Fetching just eat api to get the restaurant data
+ * @returns {Promise<{brandImg: *, restoName: *, products: [string, unknown][]}>}
+ */
+async function getRestaurantData(restoSlug){
+    const responseRestos = await fetch(`https://cw-api.takeaway.com/api/v29/restaurant?slug=${restoSlug}`, {
+        "headers": {
+            "accept": "application/json, text/plain, */*",
+            "x-country-code": "fr",
+            "x-language-code": "fr",
+        },
+        "body": null,
+        "method": "GET"
+    });
+    const jsonRestos = await responseRestos.json();
+    return {
+        brandImg: jsonRestos.brand.logoUrl || "https://upload.wikimedia.org/wikipedia/commons/0/07/Just_eat_%28allo_resto%29_logo.png",
+        restoName: restoSlug,
+        products: Object.entries(jsonRestos.menu.products).slice(0, 3)
+    };
 }

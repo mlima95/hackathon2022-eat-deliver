@@ -94,6 +94,11 @@
                  "name":"openWebsite",
                  "type":"string",
                  "value":"https:\/\/eat-delivery.loca.lt\/"
+                }, 
+                {
+                 "name":"openWebsitePolicy",
+                 "type":"string",
+                 "value":"geolocation 'self' https:\/\/eat-delivery.loca.lt\/"
                 }],
          "type":"tilelayer",
          "visible":true,
