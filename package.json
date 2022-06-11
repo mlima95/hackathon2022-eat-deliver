@@ -2,7 +2,7 @@
   "name": "hackathon2022-eat-deliver",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
+  "main": "app.js",
   "scripts": {
     "start": "npx -y nodemon app.js"
   },

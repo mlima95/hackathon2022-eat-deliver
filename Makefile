@@ -1,5 +1,3 @@
-
-
 api-app:									### Launch the api and the app that will be display in the iframe
 	npm run start
 
