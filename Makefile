@@ -1,5 +1,5 @@
 install:								### Installing dependencies
-	npm run install
+	npm install
 	cd ./map-server/ && npm install
 
 api-app:								### Launch the api and the app that will be display in the iframe
