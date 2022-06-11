@@ -87,15 +87,17 @@ async function getResto(lon, lat, postcode) {
 function getCards(data) {
     let cards = "";
     data.forEach((resto) => {
-        cards += `<div class="w3-card-4 w3-third w3-margin w3-white">
-        <img src="${resto.brandImg}" alt="img" style="width:25%">
+        cards += `<div class="w3-card-2 w3-center w3-animate-top w3-third w3-round-large w3-padding-16  w3-margin w3-white">
+       
+        <img src="${resto.brandImg}" alt="img" style="width:25%" class="w3-round" >
+        
         <div class="w3-container">
           <h3>${formatText(resto.restoName)}</h3>
           <a target="_blank" href="https://www.just-eat.fr/menu/${resto.restoName}">
-        <button class="w3-btn w3-red">
-          Commander
-        </button>        
-      </a>
+            <div class="w3-container w3-center">
+                <button class="w3-btn w3-red w3-round-large">Commander </button>      
+            </div>
+        </a>
         </div>
       </div>`;
     });

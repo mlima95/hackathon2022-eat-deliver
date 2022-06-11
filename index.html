@@ -9,19 +9,27 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <title>Adresse</title>
   </head>
   <body>
 
     <div class="w3-container">
-        <textarea id="address" class="w3-input w3-border" type="text" placeholder="Tapez votre adresse ici..."></textarea>
-        <button class="w3-btn w3-hover-black w3-green" onclick="getLocationWithAddress()">
+      <div class="w3-panel">
+        <textarea id="address" class="w3-input w3-border w3-round-large" type="text" placeholder="Tapez votre adresse ici..."></textarea>
+      </div> 
+      <div class="w3-panel">
+        <button class="w3-btn  w3-hover-light-green w3-green w3-round-large w3-hover-text-black" onclick="getLocationWithAddress()">
           Localisez-moi avec mon adresse
         </button>
 
-        <button class="w3-btn w3-hover-black w3-blue" onclick="getLocation()">
-         Magic <i class="fa fa-magic"></i>
-        </button>
+        <button class="w3-btn  w3-hover-light-blue w3-blue w3-round-large w3-hover-text-black" onclick="getLocation()">
+          Magic <i class="fa fa-magic"></i>
+         </button>
+      </div>   
     </div>
 
     <div class="valuesApiDeliver"></div>
