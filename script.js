@@ -32,9 +32,9 @@ exports.apiEatDeliver = async (lat,lon,postCode) => {
     });
     const json = await responseEatDeliver.json();
     // console.log(json);
-    regex = /[a-zA-Z.]+/g;
-    formatted_cuisine_types = []
-    cuisine_types = Object.keys(json.aggregates.cuisines);
+    let regex = /[a-zA-Z.]+/g;
+    let formatted_cuisine_types = [];
+    let cuisine_types = Object.keys(json.aggregates.cuisines);
     cuisine_types.map(cuisine => {
         cuisine = regex.exec(cuisine)
         if (cuisine != null) {
@@ -80,4 +80,3 @@ exports.apiEatDeliver = async (lat,lon,postCode) => {
     return restoObjectList;
 
 }
-

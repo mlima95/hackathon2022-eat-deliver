@@ -3,7 +3,7 @@
   "version": "3.0.1",
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 7888",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

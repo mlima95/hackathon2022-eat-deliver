@@ -7,34 +7,22 @@
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Adresse</title>
   </head>
   <body>
-    <div class="d-flex flex-column">
-      <div class="p-2">
+
         <textarea
           placeholder="Tapez votre adresse ici !"
           id="address"
         ></textarea>
-      </div>
-      <div class="p-2">
-        <button class="btn btn-primary" onclick="getLocationWithAddress()">
-          Localisez-moi avec mon adresse
+        <button class="w3-button w3-hover-black w3-khaki" onclick="getLocationWithAddress()">
+          Utilisez mon addresse
         </button>
-      </div>
-      <div class="p-2">
-        <button class="btn btn-primary" onclick="getLocation()">
-          Localisez-moi
+        <button class="w3-button w3-hover-black w3-blue" onclick="getLocation()">
+          Magic <i class="fas fa-magic"></i>
         </button>
-      </div>
-    </div>
-
     <div class="valuesApiDeliver"></div>
   </body>
 
